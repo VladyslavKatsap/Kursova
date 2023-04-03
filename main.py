@@ -79,7 +79,7 @@ models = [
     'Bolt EV', 'City Express', 'Biscayne', 'Nomad', 'Bel Air', 'Del Ray', 'Brookwood', 'Yeoman', 'Kingswood',
     'Parkwood',
 
-    # Nissan      
+    # Nissan
     'Altima',
     'Sentra', 'Maxima', 'Rogue', 'Versa', 'Murano', 'Pathfinder', 'Frontier', 'Titan', 'Armada', '370Z', 'GT-R', 'Leaf',
     'Kicks', 'Versa Note', 'Juke', 'Cube', 'Quest', 'Xterra', 'Rogue Sport', 'NV200', 'NV Cargo', 'NV Passenger',
@@ -302,8 +302,6 @@ def model(message):
         bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
 
 
-
-
 @bot.callback_query_handler(func=lambda call: call.data in models)
 def query_model(call):
     bot.answer_callback_query(callback_query_id=call.id)
@@ -467,7 +465,7 @@ def price1(message):
     elif pr == "На початок":
         reset_message(message)
     else:
-        bot.send_message(message.chat.id, 'Введіть ціну', reply_markup=keyboard6)
+        bot.send_message(message.chat.id, 'Ціна автомобіля: ' + pr, reply_markup=keyboard6)
         bot.register_next_step_handler(message, sentinf(message))
 
 
@@ -481,15 +479,49 @@ def stepinit(message):
     i = message.text
     if i == 'Погоджуюсь':
         pass
-        #finder(message)
+        # finder(message)
     if i == 'Створити запит заново':
         reset_message(message)
 
 
 @bot.message_handler(content_types=["text"])
 def sentinf(message):
-    bot.send_message(message.chat.id, 'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' +
-                     mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' +
-                     'Вартість авто: ' + pr.lower())
+    stavka = 0
+    engv = 0
+    if ent == 'Бензиновий':
+        if eng == '1.0' or eng == '1.2' or eng == '1.3' or eng == '1.4' or eng == '1.5' or eng == '1.6' or eng == '1.8' or eng == '1.9' or eng == '2.0' or eng == '2.2' or eng == '2.4' or eng == '2.5' or eng == '2.7' or eng == '2.8' or eng == '3.0':
+            stavka = 50
+        else:
+            stavka = 100
+    elif ent == 'Дизельний':
+        if eng == '1.0' or eng == '1.2' or eng == '1.3' or eng == '1.4' or eng == '1.5' or eng == '1.6' or eng == '1.8' or eng == '1.9' or eng == '2.0' or eng == '2.2' or eng == '2.4' or eng == '2.5' or eng == '2.7' or eng == '2.8' or eng == '3.0' or eng == '3.5':
+            stavka = 75
+        else:
+            stavka = 150
+    if eng == '1.0': engv = 1
+    elif eng == '1.2': engv = 1.2
+    elif eng == '1.3': engv = 1.3
+    elif eng == '1.4': engv = 1.4
+    elif eng == '1.5': engv = 1.5
+    elif eng == '1.6': engv = 1.6
+    elif eng == '1.8': engv = 1.8
+    elif eng == '1.9': engv = 1.9
+    elif eng == '2.0': engv = 2.0
+    elif eng == '2.0': engv = 2.0
+    elif eng == '2.2': engv = 2.2
+    elif eng == '2.4': engv = 2.4
+    elif eng == '2.5': engv = 2.5
+    elif eng == '2.7': engv = 2.7
+    elif eng == '2.8': engv = 2.8
+    elif eng == '3.0': engv = 3.0
+    elif eng == '3.5': engv = 3.5
+    elif eng == '4.0': engv = 4.0
+    elif eng == '4.6': engv = 4.6
+    elif eng == '5.0': engv = 5.0
+    elif eng == '6.2': engv = 6.2
+    vartist_rozm = stavka * engv * 2023 - int(yr)
+    print(vartist_rozm)
+    bot.send_message(message.chat.id, 'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' + mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' + 'Вартість авто: ' + pr.lower() + '$' + '\n' + 'Вартість розмитнення:' + str(vartist_rozm) + '$')
+
 
 bot.polling()
