@@ -217,7 +217,7 @@ engines = ['1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.8', '1.9', '2.0', '2.2',
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,
-                     'Привіт, я допоможу вам розмитнити автомобіль.\n Натисніть кнопку "Почати пошук!", та слідуйте за моїми вказівками. ',
+                     'Привіт, я допоможу вам розмитнити автомобіль.',
                      reply_markup=strt)
 
 
@@ -453,26 +453,7 @@ def query_enginetype(call):
     else:
         print(eng)
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-        price(call.message)
-
-
-def price1(message):
-    global pr
-    pr = message.text
-    print(pr)
-    if pr == "Назад":
-        engine(message)
-    elif pr == "На початок":
-        reset_message(message)
-    else:
-        bot.send_message(message.chat.id, 'Ціна автомобіля: ' + pr, reply_markup=keyboard6)
-        bot.register_next_step_handler(message, sentinf(message))
-
-
-@bot.message_handler(content_types=["text"])
-def price(message):
-    bot.send_message(message.chat.id, 'Введіть ціну автомобіля ($):', reply_markup=keyboard6)
-    bot.register_next_step_handler(message, price1)
+        info(call.message)
 
 
 def stepinit(message):
@@ -485,7 +466,7 @@ def stepinit(message):
 
 
 @bot.message_handler(content_types=["text"])
-def sentinf(message):
+def info(message):
     stavka = 0
     engv = 0
     if ent == 'Бензиновий':
@@ -519,9 +500,9 @@ def sentinf(message):
     elif eng == '4.6': engv = 4.6
     elif eng == '5.0': engv = 5.0
     elif eng == '6.2': engv = 6.2
-    vartist_rozm = stavka * engv * 2023 - int(yr)
+    vartist_rozm = stavka * engv * (2023 - int(yr))
     print(vartist_rozm)
-    bot.send_message(message.chat.id, 'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' + mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' + 'Вартість авто: ' + pr.lower() + '$' + '\n' + 'Вартість розмитнення:' + str(vartist_rozm) + '$')
+    bot.send_message(message.chat.id, 'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' + mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' + 'Вартість розмитнення: {:.2f}'.format(vartist_rozm) + '$')
 
 
 bot.polling()
