@@ -1,4 +1,5 @@
-import config
+import requests
+from bs4 import BeautifulSoup
 import telebot
 from telebot import *
 
@@ -14,17 +15,13 @@ re = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 re.row('Так!')
 re.one_time_keyboard = True
 
-keyboard6 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyboard6.row('Назад', 'На початок')
-keyboard6.one_time_keyboard = True
+keyboard1 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard1.row('Назад', 'На початок')
+keyboard1.one_time_keyboard = True
 
-keyboard7 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyboard7.row('Погоджуюсь', 'Створити запит заново')
-keyboard7.one_time_keyboard = True
-
-keyboard8 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyboard8.row('На початок')
-keyboard8.one_time_keyboard = True
+keyboard2 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard2.row('Так', 'Ні')
+keyboard2.one_time_keyboard = True
 
 brands = ['Toyota', 'Volkswagen', 'Ford', 'Honda', 'Chevrolet', 'Nissan', 'Hyundai', 'Kia', 'Mercedes-Benz',
           'BMW', 'Audi', 'Subaru', 'Mazda', 'Jeep', 'Lexus', 'GMC', 'Dodge', 'Porsche', 'Chrysler',
@@ -229,6 +226,7 @@ def reset_message(message):
     return br, mod, yr, engine, ent, eng
     brand(message)
 
+
 @bot.message_handler(content_types=["text"])
 def brand(message):
     print('ID:', message.from_user.id, '\n', 'First name:', message.from_user.first_name, '\n', 'Last name:',
@@ -259,8 +257,8 @@ def query_brand(call):
     br = call.data
 
     if br == 'Інший бренд':
+        mod = 'Інша модель'
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-        other(call.message)
     else:
         bot.send_message(call.message.chat.id, 'Обраний бренд: ' + br)
         print(br)
@@ -595,16 +593,14 @@ def query_model(call):
     bot.answer_callback_query(callback_query_id=call.id)
     global mod
     mod = call.data
-    if br == 'Інший бренд':
-        mod = 'Інша модель'
-        year(call.message)
+
     if mod == 'Назад':
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
         brand(call.message)
 
     elif mod == 'На початок':
-        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
         reset_message(call.message)
+        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
 
     else:
         bot.send_message(call.message.chat.id, 'Обрана модель: ' + mod)
@@ -660,8 +656,9 @@ def query_year(call):
     yr = call.data
 
     if yr == 'Назад':
-        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
         model(call.message)
+        bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
+
     elif yr == 'На початок':
         reset_message(call.message)
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -689,8 +686,8 @@ def query_enginetype(call):
     global ent
     ent = call.data
     if ent == 'Назад':
+        year(call.message)
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
-        yr(call.message)
     elif yr == 'На початок':
         reset_message(call.message)
         bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
@@ -752,11 +749,26 @@ def query_enginetype(call):
 
 def stepinit(message):
     i = message.text
-    if i == 'Погоджуюсь':
-        pass
-        # finder(message)
-    if i == 'Створити запит заново':
-        reset_message(message)
+    if i == 'Так':
+        url = f"https://auto.ria.com/uk/legkovie/{br}/{mod}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        prices = []
+        for item in soup.select(".ticket-item"):
+            price_element = item.select_one(".price-ticket .green")
+            if price_element is not None:
+                price = int(price_element.get_text(strip=True).replace(" ", ""))
+                prices.append(price)
+
+        if prices:
+            avg_price = sum(prices) / len(prices)
+            bot.send_message(message.chat.id,
+                             f"Середня ціна на {br.upper()} {mod.upper()}: {avg_price:.2f} $")
+        else:
+            bot.send_message(f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено.")
+    if i == 'Ні':
+        bot.send_message(f"На цьому все, щоб запустити бота заново натисніть кнопку 'Початок'.")
 
 
 @bot.message_handler(content_types=["text"])
@@ -820,6 +832,10 @@ def info(message):
     bot.send_message(message.chat.id,
                      'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' + mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' + 'Вартість розмитнення: {:.2f}'.format(
                          vartist_rozm) + '$')
+    bot.send_message(message.chat.id,
+                     f"Натисніть 'Так', якщо бажаєте дізнатися середню ціну на {br.upper()} {mod.upper()} в Україні, або натисніть 'Ні'",
+                     reply_markup=keyboard2)
+    bot.register_next_step_handler(message, stepinit)
 
 
 bot.polling()
