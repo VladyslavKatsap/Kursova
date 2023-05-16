@@ -189,13 +189,11 @@ models = [
     "Albea", "Sedici", "Ritmo", "Turbo Daily", "Weekend", "Mobi", "Freemont", "Coupe", "Brava", "Ulysse", "Palisade",
     "Viaggio", "Elba", "Siena", "Perla",
 
-    # Mini
-
 ]
 
 engine_types = ['Бензиновий', 'Дизельний']
 
-engines = ['1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.8', '1.9', '2.0', '2.2', '2.4', '2.5', '2.7', '2.8', '3.0',
+engines = ['1.0', '1.2', '1.3', '1.4', '1.5', '1.6','1.7', '1.8', '1.9', '2.0', '2.2', '2.4', '2.5', '2.7', '2.8', '3.0',
            '3.5', '4.0', '4.6', '5.0', '6.2']
 
 
@@ -217,10 +215,9 @@ def reset_message(message):
     return br, mod, yr, engine, ent, eng
 
 
-
 @bot.message_handler(content_types=["text"])
 def brand(message):
-    print('ID:', message.from_user.id, '\n','First name:', message.from_user.first_name, '\n','Last name:',
+    print('ID:', message.from_user.id, '\n', 'First name:', message.from_user.first_name, '\n', 'Last name:',
           message.from_user.last_name,
           '\n', 'Username:', message.from_user.username)
     mark = telebot.types.InlineKeyboardMarkup()
@@ -235,7 +232,12 @@ def brand(message):
     button9 = telebot.types.InlineKeyboardButton(text="Mercedes-Benz", callback_data="Mercedes-Benz")
     button10 = telebot.types.InlineKeyboardButton(text="BMW", callback_data="BMW")
     button11 = telebot.types.InlineKeyboardButton(text="Audi", callback_data="Audi")
-    mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11)
+    button12 = telebot.types.InlineKeyboardButton(text="Subaru", callback_data="Subaru")
+    button13 = telebot.types.InlineKeyboardButton(text="Mazda", callback_data="Mazda")
+    button14 = telebot.types.InlineKeyboardButton(text="Jeep", callback_data="Jeep")
+    button15 = telebot.types.InlineKeyboardButton(text="Lexus", callback_data="Lexus")
+    mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
+             button12, button13, button14, button15)
     bot.send_message(message.chat.id, 'Оберіть бренд автомобіля:', reply_markup=mark)
 
 
@@ -535,6 +537,221 @@ def model(message):
                  button21, button22, button23, button24, button25, button26, button27, button28)
         bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
 
+    if br == "BMW":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="3 Series", callback_data="3 Series")
+        button2 = telebot.types.InlineKeyboardButton(text="5 Series", callback_data="5 Series")
+        button3 = telebot.types.InlineKeyboardButton(text="7 Series", callback_data="7 Series")
+        button4 = telebot.types.InlineKeyboardButton(text="X5", callback_data="X5")
+        button5 = telebot.types.InlineKeyboardButton(text="X3", callback_data="X3")
+        button6 = telebot.types.InlineKeyboardButton(text="1 Series", callback_data="1 Series")
+        button7 = telebot.types.InlineKeyboardButton(text="X1", callback_data="X1")
+        button8 = telebot.types.InlineKeyboardButton(text="4 Series", callback_data="4 Series")
+        button9 = telebot.types.InlineKeyboardButton(text="2 Series", callback_data="2 Series")
+        button10 = telebot.types.InlineKeyboardButton(text="6 Series", callback_data="6 Series")
+        button11 = telebot.types.InlineKeyboardButton(text="8 Series", callback_data="8 Series")
+        button12 = telebot.types.InlineKeyboardButton(text="X7", callback_data="X7")
+        button13 = telebot.types.InlineKeyboardButton(text="Z4", callback_data="Z4")
+        button14 = telebot.types.InlineKeyboardButton(text="M4", callback_data="M4")
+        button15 = telebot.types.InlineKeyboardButton(text="M3", callback_data="M3")
+        button16 = telebot.types.InlineKeyboardButton(text="M5", callback_data="M5")
+        button17 = telebot.types.InlineKeyboardButton(text="X6", callback_data="X6")
+        button18 = telebot.types.InlineKeyboardButton(text="M2", callback_data="M2")
+        button19 = telebot.types.InlineKeyboardButton(text="X4", callback_data="X4")
+        button20 = telebot.types.InlineKeyboardButton(text="M8", callback_data="M8")
+        button21 = telebot.types.InlineKeyboardButton(text="M6", callback_data="M6")
+        button22 = telebot.types.InlineKeyboardButton(text="X2", callback_data="X2")
+        button23 = telebot.types.InlineKeyboardButton(text="Z3", callback_data="Z3")
+        button24 = telebot.types.InlineKeyboardButton(text="Z8", callback_data="Z8")
+        button25 = telebot.types.InlineKeyboardButton(text="325i", callback_data="325i")
+        button26 = telebot.types.InlineKeyboardButton(text="325e", callback_data="325e")
+        button27 = telebot.types.InlineKeyboardButton(text="325is", callback_data="325is")
+        button28 = telebot.types.InlineKeyboardButton(text="325", callback_data="325")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+
+    if br == "Audi":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="A4", callback_data="A4")
+        button2 = telebot.types.InlineKeyboardButton(text="Q5", callback_data="Q5")
+        button3 = telebot.types.InlineKeyboardButton(text="A6", callback_data="A6")
+        button4 = telebot.types.InlineKeyboardButton(text="A3", callback_data="A3")
+        button5 = telebot.types.InlineKeyboardButton(text="Q7", callback_data="Q7")
+        button6 = telebot.types.InlineKeyboardButton(text="A5", callback_data="A5")
+        button7 = telebot.types.InlineKeyboardButton(text="X1", callback_data="X1")
+        button8 = telebot.types.InlineKeyboardButton(text="TT", callback_data="TT")
+        button9 = telebot.types.InlineKeyboardButton(text="S4", callback_data="S4")
+        button10 = telebot.types.InlineKeyboardButton(text="A8", callback_data="A8")
+        button11 = telebot.types.InlineKeyboardButton(text="RS5", callback_data="RS5")
+        button12 = telebot.types.InlineKeyboardButton(text="RS3", callback_data="RS3")
+        button13 = telebot.types.InlineKeyboardButton(text="RS7", callback_data="RS7")
+        button14 = telebot.types.InlineKeyboardButton(text="R8", callback_data="R8")
+        button15 = telebot.types.InlineKeyboardButton(text="S5", callback_data="S5")
+        button16 = telebot.types.InlineKeyboardButton(text="Q3", callback_data="Q3")
+        button17 = telebot.types.InlineKeyboardButton(text="S3", callback_data="S3")
+        button18 = telebot.types.InlineKeyboardButton(text="SQ5", callback_data="SQ5")
+        button19 = telebot.types.InlineKeyboardButton(text="A7", callback_data="A7")
+        button20 = telebot.types.InlineKeyboardButton(text="A1", callback_data="A1")
+        button21 = telebot.types.InlineKeyboardButton(text="S6", callback_data="S6")
+        button22 = telebot.types.InlineKeyboardButton(text="RS6", callback_data="RS6")
+        button23 = telebot.types.InlineKeyboardButton(text="Q8", callback_data="Q8")
+        button24 = telebot.types.InlineKeyboardButton(text="S8", callback_data="S8")
+        button25 = telebot.types.InlineKeyboardButton(text="SQ7", callback_data="SQ7")
+        button26 = telebot.types.InlineKeyboardButton(text="TT RS", callback_data="TT RS")
+        button27 = telebot.types.InlineKeyboardButton(text="RS Q8", callback_data="RS Q8")
+        button28 = telebot.types.InlineKeyboardButton(text="100", callback_data="100")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+
+    if br == "Subaru":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="Forester", callback_data="Forester")
+        button2 = telebot.types.InlineKeyboardButton(text="Outback", callback_data="Outback")
+        button3 = telebot.types.InlineKeyboardButton(text="Impreza", callback_data="Impreza")
+        button4 = telebot.types.InlineKeyboardButton(text="Crosstrek", callback_data="Crosstrek")
+        button5 = telebot.types.InlineKeyboardButton(text="Legacy", callback_data="Legacy")
+        button6 = telebot.types.InlineKeyboardButton(text="Ascent", callback_data="Ascent")
+        button7 = telebot.types.InlineKeyboardButton(text="WRX", callback_data="WRX")
+        button8 = telebot.types.InlineKeyboardButton(text="BRZ", callback_data="BRZ")
+        button9 = telebot.types.InlineKeyboardButton(text="Baja", callback_data="Baja")
+        button10 = telebot.types.InlineKeyboardButton(text="SVX", callback_data="SVX")
+        button11 = telebot.types.InlineKeyboardButton(text="XT", callback_data="XT")
+        button12 = telebot.types.InlineKeyboardButton(text="Justy", callback_data="Justy")
+        button13 = telebot.types.InlineKeyboardButton(text="Loyale", callback_data="Loyale")
+        button14 = telebot.types.InlineKeyboardButton(text="GL", callback_data="GL")
+        button15 = telebot.types.InlineKeyboardButton(text="Leone", callback_data="Leone")
+        button16 = telebot.types.InlineKeyboardButton(text="Rex", callback_data="Rex")
+        button17 = telebot.types.InlineKeyboardButton(text="Trezia", callback_data="Trezia")
+        button18 = telebot.types.InlineKeyboardButton(text="Stella", callback_data="Stella")
+        button19 = telebot.types.InlineKeyboardButton(text="Alcyone", callback_data="Alcyone")
+        button20 = telebot.types.InlineKeyboardButton(text="Impreza WRX", callback_data="Impreza WRX")
+        button21 = telebot.types.InlineKeyboardButton(text="Impreza WRX STI", callback_data="Impreza WRX STI")
+        button22 = telebot.types.InlineKeyboardButton(text="Legacy B4", callback_data="Legacy B4")
+        button23 = telebot.types.InlineKeyboardButton(text="Levorg", callback_data="Levorg")
+        button24 = telebot.types.InlineKeyboardButton(text="Traviq", callback_data="Traviq")
+        button25 = telebot.types.InlineKeyboardButton(text="Exiga", callback_data="Exiga")
+        button26 = telebot.types.InlineKeyboardButton(text="Dex", callback_data="Dex")
+        button27 = telebot.types.InlineKeyboardButton(text="Pleo", callback_data="Pleo")
+        button28 = telebot.types.InlineKeyboardButton(text="Sambar", callback_data="Sambar")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+
+    if br == "Mazda":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="Mazda3", callback_data="Mazda3")
+        button2 = telebot.types.InlineKeyboardButton(text="CX-5", callback_data="CX-5")
+        button3 = telebot.types.InlineKeyboardButton(text="Mazda6", callback_data="Mazda6")
+        button4 = telebot.types.InlineKeyboardButton(text="MX-5 Miata", callback_data="MX-5 Miata")
+        button5 = telebot.types.InlineKeyboardButton(text="CX-3", callback_data="CX-3")
+        button6 = telebot.types.InlineKeyboardButton(text="CX-30", callback_data="CX-30")
+        button7 = telebot.types.InlineKeyboardButton(text="CX-9", callback_data="CX-9")
+        button8 = telebot.types.InlineKeyboardButton(text="RX-8", callback_data="RX-8")
+        button9 = telebot.types.InlineKeyboardButton(text="MX-6", callback_data="MX-6")
+        button10 = telebot.types.InlineKeyboardButton(text="RX-7", callback_data="RX-7")
+        button11 = telebot.types.InlineKeyboardButton(text="626", callback_data="626")
+        button12 = telebot.types.InlineKeyboardButton(text="Millenia", callback_data="Millenia")
+        button13 = telebot.types.InlineKeyboardButton(text="Protege", callback_data="Protege")
+        button14 = telebot.types.InlineKeyboardButton(text="Tribute", callback_data="Tribute")
+        button15 = telebot.types.InlineKeyboardButton(text="B-Series", callback_data="B-Series")
+        button16 = telebot.types.InlineKeyboardButton(text="MPV", callback_data="MPV")
+        button17 = telebot.types.InlineKeyboardButton(text="RX-3", callback_data="RX-3")
+        button18 = telebot.types.InlineKeyboardButton(text="RX-4", callback_data="RX-4")
+        button19 = telebot.types.InlineKeyboardButton(text="929", callback_data="929")
+        button20 = telebot.types.InlineKeyboardButton(text="GLC", callback_data="GLC")
+        button21 = telebot.types.InlineKeyboardButton(text="CX-7", callback_data="CX-7")
+        button22 = telebot.types.InlineKeyboardButton(text="Navajo", callback_data="Navajo")
+        button23 = telebot.types.InlineKeyboardButton(text="RX-2", callback_data="RX-2")
+        button24 = telebot.types.InlineKeyboardButton(text="808", callback_data="808")
+        button25 = telebot.types.InlineKeyboardButton(text="RX-5", callback_data="RX-5")
+        button26 = telebot.types.InlineKeyboardButton(text="Cosmo", callback_data="Cosmo")
+        button27 = telebot.types.InlineKeyboardButton(text="323", callback_data="323")
+        button28 = telebot.types.InlineKeyboardButton(text="Protege5", callback_data="Protege5")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+
+    if br == "Jeep":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="Wrangler", callback_data="Wrangler")
+        button2 = telebot.types.InlineKeyboardButton(text="Grand Cherokee", callback_data="Grand Cherokee")
+        button3 = telebot.types.InlineKeyboardButton(text="Cherokee", callback_data="Cherokee")
+        button4 = telebot.types.InlineKeyboardButton(text="Renegade", callback_data="Renegade")
+        button5 = telebot.types.InlineKeyboardButton(text="Compass", callback_data="Compass")
+        button6 = telebot.types.InlineKeyboardButton(text="Gladiator", callback_data="Gladiator")
+        button7 = telebot.types.InlineKeyboardButton(text="Commander", callback_data="Commander")
+        button8 = telebot.types.InlineKeyboardButton(text="Patriot", callback_data="Patriot")
+        button9 = telebot.types.InlineKeyboardButton(text="Liberty", callback_data="Liberty")
+        button10 = telebot.types.InlineKeyboardButton(text="Wagoneer", callback_data="Wagoneer")
+        button11 = telebot.types.InlineKeyboardButton(text="CJ", callback_data="CJ")
+        button12 = telebot.types.InlineKeyboardButton(text="J-10", callback_data="J-10")
+        button13 = telebot.types.InlineKeyboardButton(text="J-20", callback_data="J-20")
+        button14 = telebot.types.InlineKeyboardButton(text="J-200", callback_data="J-200")
+        button15 = telebot.types.InlineKeyboardButton(text="J-300", callback_data="J-300")
+        button16 = telebot.types.InlineKeyboardButton(text="J-4000", callback_data="J-4000")
+        button17 = telebot.types.InlineKeyboardButton(text="J-4500", callback_data="J-4500")
+        button18 = telebot.types.InlineKeyboardButton(text="J-4600", callback_data="J-4600")
+        button19 = telebot.types.InlineKeyboardButton(text="J-4700", callback_data="J-4700")
+        button20 = telebot.types.InlineKeyboardButton(text="J-4800", callback_data="J-4800")
+        button21 = telebot.types.InlineKeyboardButton(text="J-550", callback_data="J-550")
+        button22 = telebot.types.InlineKeyboardButton(text="J-600", callback_data="J-600")
+        button23 = telebot.types.InlineKeyboardButton(text="J-700", callback_data="J-700")
+        button24 = telebot.types.InlineKeyboardButton(text="J-800", callback_data="J-800")
+        button25 = telebot.types.InlineKeyboardButton(text="Scrambler", callback_data="Scrambler")
+        button26 = telebot.types.InlineKeyboardButton(text="Honcho", callback_data="Honcho")
+        button27 = telebot.types.InlineKeyboardButton(text="Dispatcher", callback_data="Dispatcher")
+        button28 = telebot.types.InlineKeyboardButton(text="Forward Control", callback_data="Forward Control")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+
+    if br == "Lexus":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="RX", callback_data="RX")
+        button2 = telebot.types.InlineKeyboardButton(text="ES", callback_data="ES")
+        button3 = telebot.types.InlineKeyboardButton(text="NX", callback_data="NX")
+        button4 = telebot.types.InlineKeyboardButton(text="GX", callback_data="GX")
+        button5 = telebot.types.InlineKeyboardButton(text="LS", callback_data="LS")
+        button6 = telebot.types.InlineKeyboardButton(text="IS", callback_data="IS")
+        button7 = telebot.types.InlineKeyboardButton(text="LX", callback_data="LX")
+        button8 = telebot.types.InlineKeyboardButton(text="RC", callback_data="RC")
+        button9 = telebot.types.InlineKeyboardButton(text="CT", callback_data="CT")
+        button10 = telebot.types.InlineKeyboardButton(text="HS", callback_data="HS")
+        button11 = telebot.types.InlineKeyboardButton(text="SC", callback_data="SC")
+        button12 = telebot.types.InlineKeyboardButton(text="GS", callback_data="GS")
+        button13 = telebot.types.InlineKeyboardButton(text="UX", callback_data="UX")
+        button14 = telebot.types.InlineKeyboardButton(text="LC", callback_data="LC")
+        button15 = telebot.types.InlineKeyboardButton(text="LF-A", callback_data="LF-A")
+        button16 = telebot.types.InlineKeyboardButton(text="IS F", callback_data="IS F")
+        button17 = telebot.types.InlineKeyboardButton(text="GS F", callback_data="GS F")
+        button18 = telebot.types.InlineKeyboardButton(text="LS 600h L", callback_data="LS 600h L")
+        button19 = telebot.types.InlineKeyboardButton(text="LS 400", callback_data="LS 400")
+        button20 = telebot.types.InlineKeyboardButton(text="GX 470", callback_data="GX 470")
+        button21 = telebot.types.InlineKeyboardButton(text="GX 460", callback_data="GX 460")
+        button22 = telebot.types.InlineKeyboardButton(text="RX 330", callback_data="RX 330")
+        button23 = telebot.types.InlineKeyboardButton(text="RX 300", callback_data="RX 300")
+        button24 = telebot.types.InlineKeyboardButton(text="RX 350", callback_data="RX 350")
+        button25 = telebot.types.InlineKeyboardButton(text="RX 400h", callback_data="RX 400h")
+        button26 = telebot.types.InlineKeyboardButton(text="RX 450h", callback_data="RX 450h")
+        button27 = telebot.types.InlineKeyboardButton(text="IS 250", callback_data="IS 250")
+        button28 = telebot.types.InlineKeyboardButton(text="IS 350", callback_data="IS 350")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
 
 @bot.callback_query_handler(func=lambda call: call.data in models)
 def query_model(call):
@@ -625,22 +842,23 @@ def engine(message):
     button4 = telebot.types.InlineKeyboardButton(text="1.4", callback_data="1.4")
     button5 = telebot.types.InlineKeyboardButton(text="1.5", callback_data="1.5")
     button6 = telebot.types.InlineKeyboardButton(text="1.6", callback_data="1.6")
-    button7 = telebot.types.InlineKeyboardButton(text="1.8", callback_data="1.8")
-    button8 = telebot.types.InlineKeyboardButton(text="1.9", callback_data="1.9")
-    button9 = telebot.types.InlineKeyboardButton(text="2.0", callback_data="2.0")
-    button10 = telebot.types.InlineKeyboardButton(text="2.2", callback_data="2.2")
-    button11 = telebot.types.InlineKeyboardButton(text="2.4", callback_data="2.4")
-    button12 = telebot.types.InlineKeyboardButton(text="2.5", callback_data="2.5")
-    button13 = telebot.types.InlineKeyboardButton(text="2.7", callback_data="2.7")
-    button14 = telebot.types.InlineKeyboardButton(text="2.8", callback_data="2.8")
-    button15 = telebot.types.InlineKeyboardButton(text="3.0", callback_data="3.0")
-    button16 = telebot.types.InlineKeyboardButton(text="3.5", callback_data="3.5")
-    button17 = telebot.types.InlineKeyboardButton(text="4.0", callback_data="4.0")
-    button18 = telebot.types.InlineKeyboardButton(text="4.6", callback_data="4.6")
-    button19 = telebot.types.InlineKeyboardButton(text="5.0", callback_data="5.0")
-    button20 = telebot.types.InlineKeyboardButton(text="6.2", callback_data="6.2")
+    button7 = telebot.types.InlineKeyboardButton(text="1.7", callback_data="1.7")
+    button8 = telebot.types.InlineKeyboardButton(text="1.8", callback_data="1.8")
+    button9 = telebot.types.InlineKeyboardButton(text="1.9", callback_data="1.9")
+    button10 = telebot.types.InlineKeyboardButton(text="2.0", callback_data="2.0")
+    button11 = telebot.types.InlineKeyboardButton(text="2.2", callback_data="2.2")
+    button12 = telebot.types.InlineKeyboardButton(text="2.4", callback_data="2.4")
+    button13 = telebot.types.InlineKeyboardButton(text="2.5", callback_data="2.5")
+    button14 = telebot.types.InlineKeyboardButton(text="2.7", callback_data="2.7")
+    button15 = telebot.types.InlineKeyboardButton(text="2.8", callback_data="2.8")
+    button16 = telebot.types.InlineKeyboardButton(text="3.0", callback_data="3.0")
+    button17 = telebot.types.InlineKeyboardButton(text="3.5", callback_data="3.5")
+    button18 = telebot.types.InlineKeyboardButton(text="4.0", callback_data="4.0")
+    button19 = telebot.types.InlineKeyboardButton(text="4.6", callback_data="4.6")
+    button20 = telebot.types.InlineKeyboardButton(text="5.0", callback_data="5.0")
+    button21 = telebot.types.InlineKeyboardButton(text="6.2", callback_data="6.2")
     mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
-             button12, button13, button14, button15, button16, button17, button18, button19, button20)
+             button12, button13, button14, button15, button16, button17, button18, button19, button20, button21)
     bot.send_message(message.chat.id, "Оберіть об'єм двигуна", reply_markup=mark)
 
 
@@ -672,12 +890,13 @@ def stepinit(message):
         if prices:
             avg_price = sum(prices) / len(prices)
             bot.send_message(message.chat.id,
-                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>: {avg_price:.2f} $",
+                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>: {avg_price:.2f} $ \nЦіна вказана незалежно від року випуску",
                              parse_mode='HTML')
             reset_message(message)
         else:
             bot.send_message(message.chat.id, f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено.")
             reset_message(message)
+
     if i == 'Ні':
         reset_message(message)
 
@@ -708,6 +927,8 @@ def info(message):
         engv = 1.5
     elif eng == '1.6':
         engv = 1.6
+    elif eng == '1.7':
+        engv = 1.7
     elif eng == '1.8':
         engv = 1.8
     elif eng == '1.9':
