@@ -2,22 +2,22 @@ import requests
 from bs4 import BeautifulSoup
 import telebot
 from telebot import *
-from telebot.types import InputMediaPhoto
+import emoji
 
 bot = telebot.TeleBot("6116036028:AAFIceklU-Wwz0TSC_cq9wJbrZ8NS4K_D50")
 
 strt = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-strt.row('Старт!')
+strt.row(f"Старт{emoji.emojize(':check_mark_button:')}")
 strt.one_time_keyboard = True
 
 keyboard2 = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-keyboard2.row('Так', 'Ні')
+keyboard2.row(f"Так{emoji.emojize(':check_mark_button:')}", f"Ні{emoji.emojize(':cross_mark_button:')}")
 keyboard2.one_time_keyboard = True
 
 brands = ['Toyota', 'Volkswagen', 'Ford', 'Honda', 'Chevrolet', 'Nissan', 'Hyundai', 'Kia', 'Mercedes-Benz',
           'BMW', 'Audi', 'Subaru', 'Mazda', 'Jeep', 'Lexus', 'GMC', 'Dodge', 'Porsche', 'Chrysler',
           'Mitsubishi', 'Volvo', 'Fiat', 'Land Rover', 'Infiniti',
-          'Peugeot', 'Renault', 'Citroen', 'Dacia', 'Skoda', 'Seat', 'Opel', 'Lada']
+          'Peugeot', 'Renault', 'Citroen', 'Dacia', 'Skoda', 'Seat', 'Opel', 'Vaz-Lada']
 
 years = ['1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008',
          '2009', '2010', '2011', '2012',
@@ -219,7 +219,24 @@ models = [
     # Citroen
     "C3", "C4", "C5", "C1", "C-Elysee", "C3 Aircross", "C4 Cactus", "C4 Picasso", "Berlingo", "SpaceTourer", "Jumpy",
     "C-Zero", "DS 3", "DS 4", "DS 5", "DS 7", "AMI", "C-Elysée WTCC", "C3 Picasso", "C4 Sedan", "C4 Spacetourer",
-    "C4 Grand Picasso", "C5 Aircross", "C3 Pluriel", "Nemo", "Xsara", "Xantia", "Saxo", "BX", "ZX"
+    "C4 Grand Picasso", "C5 Aircross", "C3 Pluriel", "Nemo", "Xsara", "Xantia", "Saxo", "BX", "ZX",
+
+    # Skoda
+    "Octavia", "Kodiaq", "Superb", "Karoq", "Fabia", "Rapid", "Scala", "Citigo", "Yeti", "Kamiq", "Enyaq", "Roomster",
+    "Felicia", "Forman", "Favorit", "105/120/130", "1000 MB", "130 RS", "Rapid Spaceback", "Estelle", "Fabia RS",
+    "Octavia RS", "Superb Combi", "Octavia Combi", "Felicia Combi", "Octavia Scout", "Superb Scout", "Yeti Outdoor",
+    "Kodiaq RS", "Fabia Combi",
+
+    # Opel
+    "Corsa", "Astra", "Insignia", "Mokka", "Crossland", "Grandland", "Adam", "Karl", "Vectra", "Zafira", "Meriva",
+    "Agila", "Antara", "Cascada", "Ampera", "Tigra", "Calibra", "Combo", "Movano", "Vivaro", "Astra GTC",
+    "Zafira Tourer", "Signum", "Astra Sports Tourer", "Astra OPC", "Insignia Sports Tourer", "Corsa OPC", "Zafira Life",
+    "Combo Life", "Vivaro Life",
+
+    # Vaz Lada
+    "2107", "Largus", "Vesta", "Granta", "XRAY", "Niva", "Kalina", "2106", "Priora", "21099", "2108", "2101", "4x4",
+    "2105", "2104", "Urban", "2103", "2102", "2109",
+
 ]
 
 engine_types = ['Бензиновий', 'Дизельний']
@@ -228,17 +245,17 @@ engines = ['1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0',
            '3.0',
            '3.5', '4.0', '4.6', '5.0', '6.2']
 
-
+# :backhand_index_pointing_down:
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id,
-                     'Привіт, я допоможу вам розмитнити автомобіль.',
+                     f"Привіт{emoji.emojize(':waving_hand:')}\nТут ви зможете дізнатися ціну розмитнення свого авто{emoji.emojize(':automobile:')}",
                      reply_markup=strt)
 
 
 @bot.message_handler(commands=['reset'])
 def reset_message(message):
-    bot.send_message(message.chat.id, 'Почнемо спочатку?', reply_markup=strt)
+    bot.send_message(message.chat.id, f"Почнемо спочатку?{emoji.emojize(':counterclockwise_arrows_button:')}", reply_markup=strt)
     br = ""
     mod = ""
     yr = ""
@@ -279,11 +296,11 @@ def brand(message):
     button25 = telebot.types.InlineKeyboardButton(text="Citroen", callback_data="Citroen")
     button26 = telebot.types.InlineKeyboardButton(text="Skoda", callback_data="Skoda")
     button27 = telebot.types.InlineKeyboardButton(text="Opel", callback_data="Opel")
-    button28 = telebot.types.InlineKeyboardButton(text="Lada", callback_data="Lada")
+    button28 = telebot.types.InlineKeyboardButton(text="Vaz-Lada", callback_data="Vaz-Lada")
     mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
              button12, button13, button14, button15, button16, button17, button18, button19, button20, button21,
              button22, button23, button24, button25, button26, button27, button28)
-    bot.send_message(message.chat.id, 'Оберіть бренд автомобіля:', reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть бренд автомобіля{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in brands)
@@ -291,7 +308,7 @@ def query_brand(call):
     bot.answer_callback_query(callback_query_id=call.id)
     global br
     br = call.data
-    bot.send_message(call.message.chat.id, 'Обраний бренд: ' + br)
+    bot.send_message(call.message.chat.id, f"Обраний бренд: {br}{emoji.emojize(':OK_hand:')}")
     print(br)
     model(call.message)
 
@@ -331,7 +348,7 @@ def model(message):
         mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
                  button11, button12, button13, button14, button15, button16, button17, button18, button19, button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Volkswagen":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -366,7 +383,7 @@ def model(message):
         mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
                  button11, button12, button13, button14, button15, button16, button17, button18, button19, button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Ford":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -401,7 +418,7 @@ def model(message):
         mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
                  button11, button12, button13, button14, button15, button16, button17, button18, button19, button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Honda":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -436,7 +453,7 @@ def model(message):
         mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
                  button11, button12, button13, button14, button15, button16, button17, button18, button19, button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Chevrolet":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -472,7 +489,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Nissan":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -508,7 +525,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Kia":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -544,7 +561,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Mercedes-Benz":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -580,7 +597,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "BMW":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -616,7 +633,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Audi":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -652,7 +669,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Subaru":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -688,7 +705,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Mazda":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -724,7 +741,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Jeep":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -760,7 +777,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Lexus":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -796,7 +813,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "GMC":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -832,7 +849,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Dodge":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -868,7 +885,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Porsche":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -904,7 +921,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Chrysler":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -935,7 +952,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Mitsubishi":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -971,7 +988,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Volvo":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1007,7 +1024,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Fiat":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1043,7 +1060,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Land Rover":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1085,7 +1102,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Infiniti":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1121,7 +1138,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Peugeot":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1157,7 +1174,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Renault":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1193,12 +1210,7 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
-
-        # Citroen
-        "C3", "C4", "C5", "C1", "C-Elysee", "C3 Aircross", "C4 Cactus", "C4 Picasso", "Berlingo", "SpaceTourer", "Jumpy",
-        "C-Zero", "DS 3", "DS 4", "DS 5", "DS 7", "AMI", "C-Elysee WTCC", "C3 Picasso", "C4 Sedan", "C4 Spacetourer",
-        "C4 Grand Picasso", "C5 Aircross", "C3 Pluriel", "Nemo", "Xsara", "Xantia", "Saxo", "BX", "ZX"
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
     if br == "Citroen":
         mark = telebot.types.InlineKeyboardMarkup()
@@ -1234,7 +1246,105 @@ def model(message):
                  button11, button12, button13, button14, button15, button16, button17, button18, button19,
                  button20,
                  button21, button22, button23, button24, button25, button26, button27, button28)
-        bot.send_message(message.chat.id, 'Оберіть модель авто:', reply_markup=mark)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
+
+    if br == "Skoda":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="Octavia", callback_data="Octavia")
+        button2 = telebot.types.InlineKeyboardButton(text="Kodiaq", callback_data="Kodiaq")
+        button3 = telebot.types.InlineKeyboardButton(text="Superb", callback_data="Superb")
+        button4 = telebot.types.InlineKeyboardButton(text="Karoq", callback_data="Karoq")
+        button5 = telebot.types.InlineKeyboardButton(text="Fabia", callback_data="Fabia")
+        button6 = telebot.types.InlineKeyboardButton(text="Rapid", callback_data="Rapid")
+        button7 = telebot.types.InlineKeyboardButton(text="Scala", callback_data="Scala")
+        button8 = telebot.types.InlineKeyboardButton(text="Citigo", callback_data="Citigo")
+        button9 = telebot.types.InlineKeyboardButton(text="Yeti", callback_data="Yeti")
+        button10 = telebot.types.InlineKeyboardButton(text="Kamiq", callback_data="Kamiq")
+        button11 = telebot.types.InlineKeyboardButton(text="Enyaq", callback_data="Enyaq")
+        button12 = telebot.types.InlineKeyboardButton(text="Roomster", callback_data="Roomster")
+        button13 = telebot.types.InlineKeyboardButton(text="Felicia", callback_data="Felicia")
+        button14 = telebot.types.InlineKeyboardButton(text="Forman", callback_data="Forman")
+        button15 = telebot.types.InlineKeyboardButton(text="Favorit", callback_data="Favorit")
+        button16 = telebot.types.InlineKeyboardButton(text="105/120/130", callback_data="105/120/130")
+        button17 = telebot.types.InlineKeyboardButton(text="1000 MB", callback_data="1000 MB")
+        button18 = telebot.types.InlineKeyboardButton(text="130 RS", callback_data="130 RS")
+        button19 = telebot.types.InlineKeyboardButton(text="Rapid Spaceback", callback_data="Rapid Spaceback")
+        button20 = telebot.types.InlineKeyboardButton(text="Estelle", callback_data="Estelle")
+        button21 = telebot.types.InlineKeyboardButton(text="Fabia RS", callback_data="Fabia RS")
+        button22 = telebot.types.InlineKeyboardButton(text="Octavia RS", callback_data="Octavia RS")
+        button23 = telebot.types.InlineKeyboardButton(text="Superb Combi", callback_data="Superb Combi")
+        button24 = telebot.types.InlineKeyboardButton(text="Octavia Combi", callback_data="Octavia Combi")
+        button25 = telebot.types.InlineKeyboardButton(text="Felicia Combi", callback_data="Felicia Combi")
+        button26 = telebot.types.InlineKeyboardButton(text="Octavia Scout", callback_data="Octavia Scout")
+        button27 = telebot.types.InlineKeyboardButton(text="Yeti Outdoor", callback_data="Yeti Outdoor")
+        button28 = telebot.types.InlineKeyboardButton(text="Kodiaq RS", callback_data="Kodiaq RS")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
+
+    if br == "Opel":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="Corsa", callback_data="Corsa")
+        button2 = telebot.types.InlineKeyboardButton(text="Astra", callback_data="Astra")
+        button3 = telebot.types.InlineKeyboardButton(text="Insignia", callback_data="Insignia")
+        button4 = telebot.types.InlineKeyboardButton(text="Mokka", callback_data="Mokka")
+        button5 = telebot.types.InlineKeyboardButton(text="Crossland", callback_data="Crossland")
+        button6 = telebot.types.InlineKeyboardButton(text="Grandland", callback_data="Grandland")
+        button7 = telebot.types.InlineKeyboardButton(text="Adam", callback_data="Adam")
+        button8 = telebot.types.InlineKeyboardButton(text="Karl", callback_data="Karl")
+        button9 = telebot.types.InlineKeyboardButton(text="Vectra", callback_data="Vectra")
+        button10 = telebot.types.InlineKeyboardButton(text="Zafira", callback_data="Zafira")
+        button11 = telebot.types.InlineKeyboardButton(text="Meriva", callback_data="Meriva")
+        button12 = telebot.types.InlineKeyboardButton(text="Agila", callback_data="Agila")
+        button13 = telebot.types.InlineKeyboardButton(text="Antara", callback_data="Antara")
+        button14 = telebot.types.InlineKeyboardButton(text="Cascada", callback_data="Cascada")
+        button15 = telebot.types.InlineKeyboardButton(text="Ampera", callback_data="Ampera")
+        button16 = telebot.types.InlineKeyboardButton(text="Tigra", callback_data="Tigra")
+        button17 = telebot.types.InlineKeyboardButton(text="Calibra", callback_data="Calibra")
+        button18 = telebot.types.InlineKeyboardButton(text="Combo", callback_data="Combo")
+        button19 = telebot.types.InlineKeyboardButton(text="Movano", callback_data="Movano")
+        button20 = telebot.types.InlineKeyboardButton(text="Vivaro", callback_data="Vivaro")
+        button21 = telebot.types.InlineKeyboardButton(text="Astra GTC", callback_data="Astra GTC")
+        button22 = telebot.types.InlineKeyboardButton(text="Zafira Tourer", callback_data="Zafira Tourer")
+        button23 = telebot.types.InlineKeyboardButton(text="Signum", callback_data="Signum")
+        button24 = telebot.types.InlineKeyboardButton(text="Astra Sports Tourer", callback_data="Astra Sports Tourer")
+        button25 = telebot.types.InlineKeyboardButton(text="Astra OPC", callback_data="Astra OPC")
+        button26 = telebot.types.InlineKeyboardButton(text="Insignia Sports Tourer",
+                                                      callback_data="Insignia Sports Tourer")
+        button27 = telebot.types.InlineKeyboardButton(text="Corsa OPC", callback_data="Corsa OPC")
+        button28 = telebot.types.InlineKeyboardButton(text="Zafira Life", callback_data="Zafira Life")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19,
+                 button20,
+                 button21, button22, button23, button24, button25, button26, button27, button28)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
+
+    if br == "Vaz-Lada":
+        mark = telebot.types.InlineKeyboardMarkup()
+        button1 = telebot.types.InlineKeyboardButton(text="2107", callback_data="2107")
+        button2 = telebot.types.InlineKeyboardButton(text="Largus", callback_data="Largus")
+        button3 = telebot.types.InlineKeyboardButton(text="Vesta", callback_data="Vesta")
+        button4 = telebot.types.InlineKeyboardButton(text="Granta", callback_data="Granta")
+        button5 = telebot.types.InlineKeyboardButton(text="XRAY", callback_data="XRAY")
+        button6 = telebot.types.InlineKeyboardButton(text="Niva", callback_data="Niva")
+        button7 = telebot.types.InlineKeyboardButton(text="Kalina", callback_data="Kalina")
+        button8 = telebot.types.InlineKeyboardButton(text="2106", callback_data="2106")
+        button9 = telebot.types.InlineKeyboardButton(text="Priora", callback_data="Priora")
+        button10 = telebot.types.InlineKeyboardButton(text="21099", callback_data="21099")
+        button11 = telebot.types.InlineKeyboardButton(text="2108", callback_data="2108")
+        button12 = telebot.types.InlineKeyboardButton(text="2101", callback_data="2101")
+        button13 = telebot.types.InlineKeyboardButton(text="4x4", callback_data="4x4")
+        button14 = telebot.types.InlineKeyboardButton(text="2105", callback_data="2105")
+        button15 = telebot.types.InlineKeyboardButton(text="2104", callback_data="2104")
+        button16 = telebot.types.InlineKeyboardButton(text="Urban", callback_data="Urban")
+        button17 = telebot.types.InlineKeyboardButton(text="2103", callback_data="2103")
+        button18 = telebot.types.InlineKeyboardButton(text="2102", callback_data="2102")
+        button19 = telebot.types.InlineKeyboardButton(text="2109", callback_data="2109")
+        mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+                 button11, button12, button13, button14, button15, button16, button17, button18, button19)
+        bot.send_message(message.chat.id, f"Оберіть модель авто{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in models)
@@ -1242,7 +1352,7 @@ def query_model(call):
     bot.answer_callback_query(callback_query_id=call.id)
     global mod
     mod = call.data
-    bot.send_message(call.message.chat.id, 'Обрана модель: ' + mod)
+    bot.send_message(call.message.chat.id, f"Обрана модель: {mod}{emoji.emojize(':oncoming_automobile:')}")
     print(mod)
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     year(call.message)
@@ -1283,7 +1393,7 @@ def year(message):
     mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
              button12, button13, button14, button15, button16, button17, button18, button19, button20, button21,
              button22, button23, button24, button25, button26, button27, button28, button29)
-    bot.send_message(message.chat.id, 'Оберіть рік випуску автомобіля', reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть рік випуску автомобіля{emoji.emojize(':down_arrow:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in years)
@@ -1292,7 +1402,7 @@ def query_year(call):
     global yr
     yr = call.data
     print(yr)
-    bot.send_message(call.message.chat.id, 'Обраний рік випуску: ' + yr)
+    bot.send_message(call.message.chat.id, f"Обраний рік випуску:  {yr}{emoji.emojize(':input_numbers:')}")
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     engine_type(call.message)
 
@@ -1303,7 +1413,7 @@ def engine_type(message):
     button1 = telebot.types.InlineKeyboardButton(text="Бензиновий", callback_data="Бензиновий")
     button2 = telebot.types.InlineKeyboardButton(text="Дизельний", callback_data="Дизельний")
     mark.add(button1, button2)
-    bot.send_message(message.chat.id, 'Оберіть тип двигуна', reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть тип двигуна{emoji.emojize(':racing_car:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in engine_types)
@@ -1312,7 +1422,7 @@ def query_enginetype(call):
     global ent
     ent = call.data
     print(ent)
-    bot.send_message(call.message.chat.id, 'Обраний тип двигуна: ' + ent)
+    bot.send_message(call.message.chat.id, f"Обраний тип двигуна: {ent}{emoji.emojize(':flexed_biceps:')}")
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     engine(call.message)
 
@@ -1343,7 +1453,7 @@ def engine(message):
     button21 = telebot.types.InlineKeyboardButton(text="6.2", callback_data="6.2")
     mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
              button12, button13, button14, button15, button16, button17, button18, button19, button20, button21)
-    bot.send_message(message.chat.id, "Оберіть об'єм двигуна", reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть об'єм двигуна{emoji.emojize(':oil_drum:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in engines)
@@ -1352,14 +1462,14 @@ def query_enginetype(call):
     global eng
     eng = call.data
     print(eng)
-    bot.send_message(call.message.chat.id, "Обраний об'єм двигуна: " + eng)
+    bot.send_message(call.message.chat.id, f"Обраний об'єм двигуна: {eng}{emoji.emojize(':dashing_away:')}")
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     info(call.message)
 
 
 def stepinit(message):
     i = message.text
-    if i == 'Так':
+    if i == f"Так{emoji.emojize(':check_mark_button:')}":
         url = f"https://auto.ria.com/uk/legkovie/{br}/{mod}"
         response = requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -1374,14 +1484,14 @@ def stepinit(message):
         if prices:
             avg_price = sum(prices) / len(prices)
             bot.send_message(message.chat.id,
-                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>: {avg_price:.2f} $ \n<i>Ціна вказана незалежно від року випуску</i>",
+                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>: {avg_price:.2f} ${emoji.emojize(':bar_chart:')}\n{emoji.emojize(':police_car_light:')}<tg-spoiler><i>Ціна вказана незалежно від року випуску</i></tg-spoiler>{emoji.emojize(':police_car_light:')}",
                              parse_mode='HTML')
             reset_message(message)
         else:
-            bot.send_message(message.chat.id, f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено.")
+            bot.send_message(message.chat.id, f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено{emoji.emojize(':disappointed_face:')}")
             reset_message(message)
 
-    if i == 'Ні':
+    if i == f"Ні{emoji.emojize(':cross_mark_button:')}":
         reset_message(message)
 
 
@@ -1450,10 +1560,9 @@ def info(message):
         vartist_rozm = stavka * engv * rik
     print(vartist_rozm)
     bot.send_message(message.chat.id,
-                     'Отже ви вибрали:\n' + 'Бренд: ' + br + '\n' + 'Модель: ' + mod + '\n' + 'Рік випуску: ' + yr + '\n' + 'Тип двигуна: ' + ent.lower() + '\n' + "Об'єм двигуна: " + eng + '\n' + 'Вартість розмитнення: {:.2f}'.format(
-                         vartist_rozm) + '$')
+                     f"{emoji.emojize('	:red_exclamation_mark:')}Отже ви вибрали:\nБренд: {br}{emoji.emojize(':OK_hand:')}\nМодель: {mod}{emoji.emojize(':oncoming_automobile:')}\nРік випуску: {yr}\nТип двигуна: {ent.lower()}{emoji.emojize(':racing_car:')}\nОб'єм двигуна: {eng}{emoji.emojize(':dashing_away:')}\nВартість розмитнення: {vartist_rozm:.2f}{emoji.emojize(':money_bag:')}")
     bot.send_message(message.chat.id,
-                     f"Натисніть 'Так', якщо бажаєте дізнатися середню ціну на {br.upper()} {mod.upper()} в Україні, або натисніть 'Ні'",
+                     f"Натисніть 'Так{emoji.emojize(':check_mark_button:')}', якщо бажаєте дізнатися середню ціну на {br.upper()} {mod.upper()} в Україні{emoji.emojize(':Ukraine:')}, або натисніть 'Ні{emoji.emojize(':cross_mark_button:')}'",
                      reply_markup=keyboard2)
     bot.register_next_step_handler(message, stepinit)
 
