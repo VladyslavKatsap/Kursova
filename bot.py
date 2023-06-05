@@ -1,10 +1,11 @@
+import config
 import requests
 from bs4 import BeautifulSoup
 import telebot
 from telebot import *
 import emoji
 
-bot = telebot.TeleBot("6116036028:AAFIceklU-Wwz0TSC_cq9wJbrZ8NS4K_D50")
+bot = telebot.TeleBot(config.token)
 
 strt = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 strt.row(f"Старт{emoji.emojize(':check_mark_button:')}")
@@ -68,7 +69,7 @@ models = [
     'Kicks', 'Versa Note', 'Juke', 'Cube', 'Quest', 'Xterra', 'Rogue Sport', 'NV200', 'NV Cargo', 'NV Passenger',
     '200SX', '240SX', '300ZX', '350Z', 'Advan', 'Almera', 'Bluebird', 'Cefiro', 'Cherry', 'Clipper', 'Datsun',
     'Fairlady', 'Figaro', 'Gloria', 'Interstar', 'Juke Nismo RS', 'Lafesta', 'Latio', 'Moco', 'Nismo', 'Note',
-    'Paladin', 'Pao', 'Patrol', 'Pixo', 'President', 'Primera',
+    'Paladin', 'Pao', 'Patrol', 'Pixo', 'President', 'Primera', 'Qashqai',
 
     # Hyundai
     'Elantra', 'Sonata', 'Accent', 'Tucson', 'Santa Fe', 'Palisade',
@@ -245,6 +246,7 @@ engines = ['1.0', '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9', '2.0',
            '3.0',
            '3.5', '4.0', '4.6', '5.0', '6.2']
 
+
 # :backhand_index_pointing_down:
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -255,7 +257,8 @@ def start_message(message):
 
 @bot.message_handler(commands=['reset'])
 def reset_message(message):
-    bot.send_message(message.chat.id, f"Почнемо спочатку?{emoji.emojize(':counterclockwise_arrows_button:')}", reply_markup=strt)
+    bot.send_message(message.chat.id, f"Почнемо спочатку?{emoji.emojize(':counterclockwise_arrows_button:')}",
+                     reply_markup=strt)
     br = ""
     mod = ""
     yr = ""
@@ -495,7 +498,7 @@ def model(message):
         mark = telebot.types.InlineKeyboardMarkup()
         button1 = telebot.types.InlineKeyboardButton(text="Altima", callback_data="Altima")
         button2 = telebot.types.InlineKeyboardButton(text="Sentra", callback_data="Sentra")
-        button3 = telebot.types.InlineKeyboardButton(text="Maxima", callback_data="Maxima")
+        button3 = telebot.types.InlineKeyboardButton(text="Qashqai", callback_data="Qashqai")
         button4 = telebot.types.InlineKeyboardButton(text="Rogue", callback_data="Rogue")
         button5 = telebot.types.InlineKeyboardButton(text="Versa", callback_data="Versa")
         button6 = telebot.types.InlineKeyboardButton(text="Murano", callback_data="Murano")
@@ -1393,7 +1396,8 @@ def year(message):
     mark.add(button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11,
              button12, button13, button14, button15, button16, button17, button18, button19, button20, button21,
              button22, button23, button24, button25, button26, button27, button28, button29)
-    bot.send_message(message.chat.id, f"Оберіть рік випуску автомобіля{emoji.emojize(':down_arrow:')}", reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть рік випуску автомобіля{emoji.emojize(':down_arrow:')}",
+                     reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in years)
@@ -1467,8 +1471,9 @@ def query_enginetype(call):
     info(call.message)
 
 
-def stepinit(message):
+def pars(message):
     i = message.text
+    print(i)
     if i == f"Так{emoji.emojize(':check_mark_button:')}":
         url = f"https://auto.ria.com/uk/legkovie/{br}/{mod}"
         response = requests.get(url)
@@ -1483,12 +1488,16 @@ def stepinit(message):
 
         if prices:
             avg_price = sum(prices) / len(prices)
+            print(avg_price)
             bot.send_message(message.chat.id,
-                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>: {avg_price:.2f} ${emoji.emojize(':bar_chart:')}\n{emoji.emojize(':police_car_light:')}<tg-spoiler><i>Ціна вказана незалежно від року випуску</i></tg-spoiler>{emoji.emojize(':police_car_light:')}",
+                             f"Середня ціна на <a href='{url}'>{br.upper()} {mod.upper()}</a>:"
+                             f" {avg_price:.2f} ${emoji.emojize(':bar_chart:')}\n{emoji.emojize(':police_car_light:')}"
+                             f"<tg-spoiler><i>Ціна вказана незалежно від року випуску</i></tg-spoiler>{emoji.emojize(':police_car_light:')}",
                              parse_mode='HTML')
             reset_message(message)
         else:
-            bot.send_message(message.chat.id, f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено{emoji.emojize(':disappointed_face:')}")
+            bot.send_message(message.chat.id,
+                             f"Автомобілів {br.upper()} {mod.upper()} на сайті не знайдено{emoji.emojize(':disappointed_face:')}")
             reset_message(message)
 
     if i == f"Ні{emoji.emojize(':cross_mark_button:')}":
@@ -1560,11 +1569,17 @@ def info(message):
         vartist_rozm = stavka * engv * rik
     print(vartist_rozm)
     bot.send_message(message.chat.id,
-                     f"{emoji.emojize('	:red_exclamation_mark:')}Отже ви вибрали:\nБренд: {br}{emoji.emojize(':OK_hand:')}\nМодель: {mod}{emoji.emojize(':oncoming_automobile:')}\nРік випуску: {yr}\nТип двигуна: {ent.lower()}{emoji.emojize(':racing_car:')}\nОб'єм двигуна: {eng}{emoji.emojize(':dashing_away:')}\nВартість розмитнення: {vartist_rozm:.2f}{emoji.emojize(':money_bag:')}")
+                     f"{emoji.emojize('	:red_exclamation_mark:')}Отже ви вибрали:"
+                     f"\nБренд: {br}{emoji.emojize(':OK_hand:')}\nМодель: {mod}{emoji.emojize(':oncoming_automobile:')}"
+                     f"\nРік випуску: {yr}\nТип двигуна: {ent.lower()}{emoji.emojize(':racing_car:')}"
+                     f"\nОб'єм двигуна: {eng}{emoji.emojize(':dashing_away:')}"
+                     f"\nВартість розмитнення: {vartist_rozm:.2f}{emoji.emojize(':money_bag:')}")
     bot.send_message(message.chat.id,
-                     f"Натисніть 'Так{emoji.emojize(':check_mark_button:')}', якщо бажаєте дізнатися середню ціну на {br.upper()} {mod.upper()} в Україні{emoji.emojize(':Ukraine:')}, або натисніть 'Ні{emoji.emojize(':cross_mark_button:')}'",
+                     f"Натисніть 'Так{emoji.emojize(':check_mark_button:')}',"
+                     f" якщо бажаєте дізнатися середню ціну на {br.upper()} {mod.upper()} в Україні{emoji.emojize(':Ukraine:')},"
+                     f" або натисніть 'Ні{emoji.emojize(':cross_mark_button:')}'",
                      reply_markup=keyboard2)
-    bot.register_next_step_handler(message, stepinit)
+    bot.register_next_step_handler(message, pars)
 
 
 bot.polling()
