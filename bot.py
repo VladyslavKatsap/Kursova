@@ -313,6 +313,7 @@ def query_brand(call):
     br = call.data
     bot.send_message(call.message.chat.id, f"Обраний бренд: {br}{emoji.emojize(':OK_hand:')}")
     print(br)
+    bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     model(call.message)
 
 
@@ -1417,7 +1418,7 @@ def engine_type(message):
     button1 = telebot.types.InlineKeyboardButton(text="Бензиновий", callback_data="Бензиновий")
     button2 = telebot.types.InlineKeyboardButton(text="Дизельний", callback_data="Дизельний")
     mark.add(button1, button2)
-    bot.send_message(message.chat.id, f"Оберіть тип двигуна{emoji.emojize(':racing_car:')}", reply_markup=mark)
+    bot.send_message(message.chat.id, f"Оберіть тип палива двигуна{emoji.emojize(':racing_car:')}", reply_markup=mark)
 
 
 @bot.callback_query_handler(func=lambda call: call.data in engine_types)
@@ -1426,7 +1427,7 @@ def query_enginetype(call):
     global ent
     ent = call.data
     print(ent)
-    bot.send_message(call.message.chat.id, f"Обраний тип двигуна: {ent}{emoji.emojize(':flexed_biceps:')}")
+    bot.send_message(call.message.chat.id, f"Обраний тип палива: {ent}{emoji.emojize(':flexed_biceps:')}")
     bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id)
     engine(call.message)
 
